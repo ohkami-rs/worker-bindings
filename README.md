@@ -1,5 +1,5 @@
 <h1 align="center">worker-bindings</h1>
-<p align="center">Automatically bind bindings in your wrangler.toml into a Rust struct.</p>
+<p align="center">Automatically bind bindings in your `wrangler.toml` into a Rust struct</p>
 
 <div align="right">
     <img alt="test status of worker-bindings" src="https://github.com/kana-rus/worker-bindings/actions/workflows/CI.yaml/badge.svg"/>
