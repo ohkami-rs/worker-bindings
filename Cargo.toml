@@ -10,7 +10,7 @@ readme        = "README.md"
 license       = "MIT"
 description   = "Automatically bind bindings in your `wrangler.toml` into a Rust struct"
 keywords      = ["cloudflare", "workers", "serverless", "wasm"]
-categories    = ["web-programming::http-server", "network-programming", "wasm"]
+categories    = ["rust-patterns", "web-programming::http-server", "network-programming", "wasm"]
 
 [lib]
 proc-macro = true
