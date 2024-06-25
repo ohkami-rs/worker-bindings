@@ -2,7 +2,7 @@
 <p align="center">Automatically bind bindings in your wrangler.toml into a Rust struct.</p>
 
 <div align="right">
-    <img alt="test status of worker-bindings" src="https://github.com/kana-rus/worker-bindings/actions/workflows/CI.yml/badge.svg"/>
+    <img alt="test status of worker-bindings" src="https://github.com/kana-rus/worker-bindings/actions/workflows/CI.yaml/badge.svg"/>
     <a href="https://crates.io/crates/worker-bindings"><img alt="crates.io" src="https://img.shields.io/crates/v/worker-bindings" /></a>
 </div>
 
