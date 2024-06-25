@@ -1,0 +1,23 @@
+name: CI
+on:
+  pull_request:
+
+jobs:
+  CI:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          profile:   minimal
+          override:  true
+
+      - name: check buildability
+        run:  cargo check
+
+      - name: check example
+        working-directory: example
+        run:  cargo check

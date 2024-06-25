@@ -1,0 +1,22 @@
+[package]
+name          = "worker-bindings"
+version       = "1.0.0"
+edition       = "2021"
+authors       = ["kanarus <kanarus786@gmail.com>"]
+documentation = "https://docs.rs/worker-bindings"
+homepage      = "https://crates.io/crates/worker-bindings"
+repository    = "https://github.com/kana-rus/worker-bindings"
+readme        = "README.md"
+license       = "MIT"
+description   = "Automatic bindings to Rust struct"
+keywords      = ["cloudflare", "workers", "serverless", "wasm"]
+categories    = ["web-programming::http-server", "network-programming", "wasm"]
+
+[lib]
+proc-macro = true
+
+[dependencies]
+proc-macro2 = { version = "1.0" }
+quote       = { version = "1.0" }
+syn         = { version = "1.0", features = ["full"] }
+toml        = { version = "0.8", features = ["parse"], default-features = false }
