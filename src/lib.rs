@@ -1,7 +1,7 @@
 mod internal;
 
 
-/// Automatically bind bindings in wrangler.toml to Rust struct.
+/// Automatically bind bindings in your `wrangler.toml` into a Rust struct
 /// 
 /// - This uses the default (top-level) env by default. You can configure it
 ///   by passing an env name as argument like `#[bindings(dev)]`

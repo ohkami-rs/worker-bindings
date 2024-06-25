@@ -8,7 +8,7 @@ homepage      = "https://crates.io/crates/worker-bindings"
 repository    = "https://github.com/kana-rus/worker-bindings"
 readme        = "README.md"
 license       = "MIT"
-description   = "Automatic bindings to Rust struct"
+description   = "Automatically bind bindings in your `wrangler.toml` into a Rust struct"
 keywords      = ["cloudflare", "workers", "serverless", "wasm"]
 categories    = ["web-programming::http-server", "network-programming", "wasm"]
 
