@@ -185,7 +185,7 @@ pub(super) fn bindings(env: TokenStream, bindings_struct: TokenStream) -> Result
         let methods = bindings.iter()
             .filter_map(|(name, binding)| match binding {
                 Binding::Variable(var) => Some(quote! {
-                    #vis const fn #name() -> &'static str { #var }
+                    #vis const #name: &'static str = #var;
                 }),
                 _ => None
             });
