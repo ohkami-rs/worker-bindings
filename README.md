@@ -33,8 +33,6 @@ pub async fn main(req: Request, env: Env, _ctx: worker::Context) -> Result<Respo
     let b = Bindings::from(&env);
 
     let var: &'static str = b.MY_VAR;
-    
-    let var: &'static str = Bindings::MY_VAR;
 
     let data = b.MY_KV.get("data").text().await?;
 
