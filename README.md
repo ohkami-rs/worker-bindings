@@ -10,6 +10,9 @@
 
 *wrangler.toml*
 ```toml
+[vars]
+MY_VAR = "my-variable"
+
 [[kv_namespaces]]
 binding = "MY_KV"
 id      = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
@@ -29,8 +32,11 @@ pub async fn main(req: Request, env: Env, _ctx: worker::Context) -> Result<Respo
     /* load bindings from env */
     let b = Bindings::from(&env);
 
-    let data = b.MY_KV.get("data").text().await
-        .expect("Failed to get data");
+    let var: &'static str = b.MY_VAR;
+    
+    let var: &'static str = Bindings::MY_VAR;
+
+    let data = b.MY_KV.get("data").text().await?;
 
     //...
 }
