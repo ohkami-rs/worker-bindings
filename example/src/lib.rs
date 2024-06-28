@@ -10,8 +10,9 @@ pub async fn main(_req: Request, env: Env, _ctx: worker::Context) -> Result<Resp
     /* load bindings from env */
     let b = Bindings::from(&env);
 
-    let _data = b.KV.get("data").text().await
-        .expect("Failed to get data");
+    let _var: &'static str = Bindings::VAR;
+
+    let _data = b.KV.get("data").text().await?;
 
     Response::ok("Hello, worker-bindings!")
 }
