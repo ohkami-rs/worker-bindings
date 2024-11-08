@@ -4,5 +4,5 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-worker          = { version = "0.3" }
+worker          = { version = "0.4" }
 worker-bindings = { path = ".." }
