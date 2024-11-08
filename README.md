@@ -1,8 +1,9 @@
 <h1 align="center">worker-bindings</h1>
-<p align="center">Automatically detect bindings in your `wrangler.toml` and bind them to a Rust struct</p>
+<p align="center">Automatically detect <em>bindings</em> in <code>wrangler.toml</code> and bind them to a Rust struct</p>
 
 <div align="right">
-    <img alt="test status of worker-bindings" src="https://github.com/ohkami-rs/worker-bindings/actions/workflows/CI.yaml/badge.svg"/>
+    <a href="https://github.com/ohkami-rs/worker-bindings/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/crates/l/worker-bindings.svg" /></a>
+    <a href="https://github.com/ohkami-rs/worker-bindings/actions"><img alt="CI status" src="https://github.com/ohkami-rs/worker-bindings/actions/workflows/CI.yaml/badge.svg"/></a>
     <a href="https://crates.io/crates/worker-bindings"><img alt="crates.io" src="https://img.shields.io/crates/v/worker-bindings" /></a>
 </div>
 
