@@ -9,6 +9,10 @@ VAR = "my_variable"
 binding = "KV"
 id      = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
+[[durable_objects.bindings]]
+name       = "ROOMS"
+class_name = "Room"
+
 [build]
 command = "cargo install -q worker-build && worker-build --release"
 

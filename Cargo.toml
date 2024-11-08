@@ -1,6 +1,6 @@
 [package]
 name          = "worker-bindings"
-version       = "2.0.0"
+version       = "2.1.0"
 edition       = "2021"
 authors       = ["kanarus <kanarus786@gmail.com>"]
 documentation = "https://docs.rs/worker-bindings"
@@ -8,7 +8,7 @@ homepage      = "https://crates.io/crates/worker-bindings"
 repository    = "https://github.com/ohkami-rs/worker-bindings"
 readme        = "README.md"
 license       = "MIT"
-description   = "Automatically bind bindings in your `wrangler.toml` into a Rust struct"
+description   = "Bindings in wrangler.toml to Rust struct"
 keywords      = ["cloudflare", "workers", "serverless", "wasm"]
 categories    = ["rust-patterns", "web-programming::http-server", "network-programming", "wasm"]
 
@@ -18,5 +18,5 @@ proc-macro = true
 [dependencies]
 proc-macro2 = { version = "1.0" }
 quote       = { version = "1.0" }
-syn         = { version = "1.0", features = ["full"] }
+syn         = { version = "2.0", features = ["full"] }
 toml        = { version = "0.8", features = ["parse"], default-features = false }

@@ -89,6 +89,7 @@ pub(super) fn bindings(env: TokenStream, bindings_struct: TokenStream) -> Result
         KV,
         Service,
         Queue,
+        DurableObject,
     }
 
     let name = &bindings_struct.ident;
@@ -106,7 +107,6 @@ pub(super) fn bindings(env: TokenStream, bindings_struct: TokenStream) -> Result
                 ))
             }
         }
-
         if let Some(toml::Value::Array(d1_databases)) = config.get("d1_databases") {
             for binding in d1_databases {
                 let name = binding.as_table().ok_or_else(invalid_wrangler_toml)?
@@ -140,7 +140,6 @@ pub(super) fn bindings(env: TokenStream, bindings_struct: TokenStream) -> Result
                 ))
             }
         }
-
         if let Some(toml::Value::Table(queues)) = config.get("queues") {
             if let Some(toml::Value::Array(producers)) = queues.get("producers") {
                 for binding in producers {
@@ -154,6 +153,19 @@ pub(super) fn bindings(env: TokenStream, bindings_struct: TokenStream) -> Result
                 }
             }
         }
+        if let Some(toml::Value::Table(durable_objects)) = config.get("durable_objects") {
+            if let Some(toml::Value::Array(durable_object_bindings)) = durable_objects.get("bindings") {
+                for binding in durable_object_bindings {
+                    let name = binding.as_table().ok_or_else(invalid_wrangler_toml)?
+                        .get("name").ok_or_else(|| callsite("Invalid wrangler.toml: a binding doesn't have `binding = \"...\"`"))?
+                        .as_str().ok_or_else(invalid_wrangler_toml)?;
+                    bindings.push((
+                        syn::parse_str(name).map_err(|e| callsite(format!("Can't bind binding `{name}` into struct: {e}")))?,
+                        Binding::DurableObject
+                    ))
+                }
+            }
+        }
 
         bindings
     };
@@ -161,16 +173,15 @@ pub(super) fn bindings(env: TokenStream, bindings_struct: TokenStream) -> Result
     let declare_struct = {
         let fields = bindings.iter().map(|(name, binding)| {
             let ty = match binding {
-                Binding::Variable(_) => quote!(&'static str),
-                Binding::D1          => quote!(::worker::d1::D1Database),
-                Binding::KV          => quote!(::worker::kv::KvStore),
-                Binding::Queue       => quote!(::worker::Queue),
-                Binding::Service     => quote!(::worker::Fetcher),
+                Binding::Variable(_)   => quote!(&'static str),
+                Binding::D1            => quote!(::worker::d1::D1Database),
+                Binding::KV            => quote!(::worker::kv::KvStore),
+                Binding::Queue         => quote!(::worker::Queue),
+                Binding::Service       => quote!(::worker::Fetcher),
+                Binding::DurableObject => quote!(::worker::ObjectNamespace),
             };
 
-            quote! {
-                #vis #name: #ty
-            }
+            quote! { #vis #name: #ty }
         });
 
         quote! {
@@ -206,41 +217,47 @@ pub(super) fn bindings(env: TokenStream, bindings_struct: TokenStream) -> Result
                 Binding::Variable(value) => quote!(#value),
                 Binding::D1 => quote! {
                     match env.d1(#name_str) {
-                        Ok(binding) => binding, Err(e) => {
+                        Ok(binding) => binding, Err(e) => (|e| {
                             ::worker::console_error!("Failed to load D1 binding `{}`: {e}", #name_str);
                             panic!("#[bindings] loading failed")
-                        }
+                        })(e)
                     }
                 },
                 Binding::KV => quote! {
                     match env.kv(#name_str) {
-                        Ok(binding) => binding, Err(e) => {
+                        Ok(binding) => binding, Err(e) => (|e| {
                             ::worker::console_error!("Failed to load KV binding `{}`: {e}", #name_str);
                             panic!("#[bindings] loading failed")
-                        }
+                        })(e)
                     }
                 },
                 Binding::Queue => quote! {
                     match env.queue(#name_str) {
-                        Ok(binding) => binding, Err(e) => {
+                        Ok(binding) => binding, Err(e) => (|e| {
                             ::worker::console_error!("Failed to load Queue binding `{}`: {e}", #name_str);
                             panic!("#[bindings] loading failed")
-                        }
+                        })(e)
                     }
                 },
                 Binding::Service => quote! {
                     match env.service(#name_str) {
-                        Ok(binding) => binding, Err(e) => {
+                        Ok(binding) => binding, Err(e) => (|e| {
                             ::worker::console_error!("Failed to load Service binding `{}`: {e}", #name_str);
                             panic!("#[bindings] loading failed")
-                        }
+                        })(e)
                     }
-                }
+                },
+                Binding::DurableObject => quote! {
+                    match env.durable_object(#name_str) {
+                        Ok(binding) => binding, Err(e) => (|e| {
+                            ::worker::console_error!("Failed to load Service binding `{}`: {e}", #name_str);
+                            panic!("#[bindings] loading failed")
+                        })(e)
+                    }
+                },
             };
 
-            quote! {
-                #name: #get
-            }
+            quote! { #name: #get }
         });
 
         quote! {

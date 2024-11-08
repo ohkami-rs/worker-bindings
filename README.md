@@ -1,5 +1,5 @@
 <h1 align="center">worker-bindings</h1>
-<p align="center">Automatically bind bindings in your `wrangler.toml` into a Rust struct</p>
+<p align="center">Automatically detect bindings in your `wrangler.toml` and bind them to a Rust struct</p>
 
 <div align="right">
     <img alt="test status of worker-bindings" src="https://github.com/ohkami-rs/worker-bindings/actions/workflows/CI.yaml/badge.svg"/>
@@ -42,7 +42,7 @@ pub async fn main(req: Request, env: Env, _ctx: worker::Context) -> Result<Respo
 
 ## Note
 
-- `#[bindings]` works in a cargo workspace but has a limitation that it fails to resolve `wrangler.toml` if **more than one** members have `wrangler.toml`s.
+- `#[bindings]` works in a cargo workspace but has a limitation that it can't resolve `wrangler.toml` if **more than one** members have `wrangler.toml`s.
 - This crate is originally developed in [Ohkami](https://crates.io/crates/ohkami) web framework and later extracted as an independent edition.
 
 ## License
